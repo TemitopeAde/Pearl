@@ -1,0 +1,46 @@
+
+body {
+  font-family: "Poppins" !important;
+}
+
+input {
+  font-family: "Poppins" !important;
+}
+
+
+/* Custom styles for the container */
+.container {
+  background-color: #f0f0f0; /* Background color */
+  padding: 20px; /* Padding around the content */
+  border-radius: 5px; /* Rounded corners */
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Box shadow for a subtle effect */
+  margin: 20px auto; /* Center the container horizontally */
+  max-width: 800px; /* Maximum width of the container */
+}
+
+/* Center text within the container */
+.container h1, .container p {
+  text-align: center;
+}
+
+/* Responsive styles using media queries */
+@media (max-width: 576px) {
+  /* Custom styles for small screens */
+  .container {
+    padding: 10px;
+  }
+}
+
+@media (min-width: 577px) and (max-width: 992px) {
+  /* Custom styles for medium screens */
+  .container {
+    padding: 15px;
+  }
+}
+
+@media (min-width: 993px) {
+  /* Custom styles for large screens */
+  .container {
+    padding: 20px;
+  }
+}
