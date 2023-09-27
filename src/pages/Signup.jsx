@@ -111,7 +111,8 @@ const Signup = () => {
             />
             {errors.confirmPassword && <span>This field is required</span>}
           </div>
-          <button type="submit" className='button-1'>
+          <button disabled={loading} type="submit" className='button-1'>
+            {loading ? "Sign up...": "Sign up"}
             Sign up
           </button>
         </form>
