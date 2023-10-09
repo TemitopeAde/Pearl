@@ -2,11 +2,14 @@ import { useForm } from "react-hook-form"
 import { useDispatch } from 'react-redux';
 import './pages.css'
 import { useState } from "react";
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useMutation } from 'react-query';
 import { login } from "../state/actions";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import Footer from "../components/Footer"
+
+import Header from '../components/Header'
 
 const Signin = () => {
   const dispatch = useDispatch();
@@ -47,7 +50,7 @@ const Signin = () => {
   };
 
   return (
-    <>
+    <div className="authForm">
       <ToastContainer
         position="top-center"
         autoClose={5000}
@@ -60,6 +63,7 @@ const Signin = () => {
         pauseOnHover
         theme="light"
       />
+      <Header />
       <div className="login-box">
         <h2>Sign In</h2>
         <form onSubmit={handleSubmit(onSubmit)}>
@@ -85,12 +89,22 @@ const Signin = () => {
             {errors.password && <span>This field is required</span>}
           </div>
 
-          <button type="submit" className='button-1' disabled={loading}>
+          <button type="submit" id="submit-login" className='button-1' disabled={loading}>
             {loading ? 'Logging in...' : 'Login'}
           </button>
         </form>
+        <span style={{ display: "flex", margin: "2rem 0", color: "#fff", paddingBottom: "1rem"}}>
+          <span class="txt1">
+            Not a member?
+          </span>
+          <Link style={{ color: "green", cursor: "pointer", textDecoration: "none"}} to="" class="txt1 bo1 hov1" href="#">
+            Sign up now
+          </Link>
+        </span>
+        
       </div>
-    </>
+      <Footer />
+    </div>
   )
 };
 

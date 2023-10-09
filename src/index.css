@@ -1,13 +1,32 @@
-body {
-  margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+/* Webkit (Safari, Chrome, etc.) */
+::-webkit-scrollbar {
+  width: 10px;
+  /* Set the width of the scrollbar */
 }
 
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+::-webkit-scrollbar-thumb {
+  background: grey;
+  /* Set the color of the thumb (the draggable part) */
+  border-radius: 5px;
+  /* Rounded corners for the thumb */
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: darkgrey;
+  /* Change color on hover */
+}
+
+/* Firefox */
+/* Note: Firefox supports scrollbar styling only in Firefox Nightly at the time of writing (September 2021). */
+/* You may need to enable "layout.css.scrollbar-width.enabled" in about:config in Firefox. */
+* {
+  scrollbar-color: grey darkgrey;
+  /* Set the color of the scrollbar and thumb */
+}
+
+/* IE and Edge */
+/* Note: Styling scrollbars in IE and Edge is more limited and may require non-standard properties. */
+/* This example sets a grey background for the entire scrollbar area. */
+* {
+  scrollbar-face-color: grey;
 }

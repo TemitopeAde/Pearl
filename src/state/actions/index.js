@@ -20,7 +20,7 @@ import {
 
 
 const baseUrlAuth = "https://backend-5kyc.onrender.com/api/v1/users"
-const baseUrlProduct = "https://backend-5kyc.onrender.com/api/v1/products"
+const baseUrlProduct = "127.0.0.1:5100/products"
 
 export const login = (data) => async (dispatch) => {
 
@@ -143,15 +143,18 @@ export const getProduct = (data) => async (dispatch) => {
 }
 
 
-export const getAllProducts = (data) => async (dispatch) => {
-  try {
-    const config = {
-      headers: {
-        "Content-Type": "application/json",
-      },
-    };
+export const getAllProduct = (data) => async (dispatch) => {
+  const url = `https://api.wps-inc.com/items?page[cursor]=${data}`
 
-    const response = await axios.get(`${baseUrlProduct}/?page=${data}`, config);
+  let config = {
+    headers: {
+      Authorization: "Bearer 48rCG5xpVdyPCpnaE3jDR2QZIALlXkQjTI6Sr9QP"
+    },
+  };
+
+  try {
+
+    const response = await axios.get(url, config);
     if (response.status !== 200) {
       throw new Error('Get all products failed'); // Thrw an error for non-200 responses
     }
@@ -160,7 +163,8 @@ export const getAllProducts = (data) => async (dispatch) => {
       type: FETCH_ALL_PRODUCTS,
       payload: response.data
     })
-    // console.log(response.data);
+
+    console.log(response.data.data[1].id);
     return response.data
   } catch (error) {
     dispatch({
@@ -170,6 +174,76 @@ export const getAllProducts = (data) => async (dispatch) => {
     throw error
   }
 }
+
+
+export const getAllProducts = (data) => async (dispatch) => {
+  const url = `https://api.wps-inc.com/items?page[cursor]=${data}`;
+
+  const productConfig = {
+    headers: {
+      Authorization: "Bearer 48rCG5xpVdyPCpnaE3jDR2QZIALlXkQjTI6Sr9QP"
+    },
+  };
+
+  try {
+    // Fetch main product data
+    const productResponse = await axios.get(url, productConfig);
+
+    if (productResponse.status !== 200) {
+      throw new Error('Get all products failed');
+    }
+
+    const products = productResponse.data.data;
+    console.log(products);
+
+    // Fetch product images for each product
+    const productsWithImages = await Promise.all(
+      products.map(async (product) => {
+        const imageConfig = {
+          headers: {
+            Authorization: "Bearer 48rCG5xpVdyPCpnaE3jDR2QZIALlXkQjTI6Sr9QP"
+          },
+        };
+
+        const imageResponse = await axios.get(`https://api.wps-inc.com/items/${product.id}/images`, imageConfig);
+
+
+        if (imageResponse.status !== 200) {
+          throw new Error(`Get product images for product ${product._id} failed`);
+        }
+
+        const img = `${imageResponse.data.data[0]?.domain}${imageResponse.data.data[0]?.path}${imageResponse.data.data[0]?.filename}`
+        const image = img; // Assuming you want to use the first image
+
+        return {
+          ...product,
+          image_url: image ? image : null, // Adjust property names as needed
+        };
+      })
+    );
+
+    const responseWithMeta = {
+      productsWithImages,
+      meta: productResponse.data.meta,
+    };
+
+
+    // dispatch({
+    //   type: FETCH_ALL_PRODUCTS,
+    //   payload: productsWithImages,
+    // });
+    
+
+    return responseWithMeta;
+  } catch (error) {
+    dispatch({
+      type: FETCH_ALL_PRODUCTS_FAILED,
+      payload: null,
+    });
+    throw error;
+  }
+};
+
 
 
 export const getCartNumber = (data) => async (dispatch) => {

@@ -1,12 +1,36 @@
 .header {
-  background-color: #fff; /* Header background color */
-  box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1); /* Drop shadow for a subtle effect */
-  padding: 1.3rem 0;
+  background-color: #fff;
+  /* Header background color */
+  box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
+  /* Drop shadow for a subtle effect */
+  padding: .3rem 0;
+  position: relative;
+}
+
+.hamburger-menu {
+  position: absolute;
+  top: 20px;
+  right: 10px
+}
+
+.hamburger-menu path {
+  stroke: green;
+}
+
+
+.hamburger-menu button {
+  background: none;
+  outline: none;
+  border: none;
 }
 
 .logo a {
   text-decoration: none;
   color: rgb(1, 17, 46);
+}
+
+.logo img {
+  width: 47px;
 }
 
 .header ul {
@@ -31,6 +55,7 @@
   display: flex;
   align-items: center;
 }
+
 .nav-item img {
   width: 30px;
 }
@@ -54,9 +79,11 @@
   position: absolute;
   top: -10px;
   right: -10px;
-  background-color: #f00; /* Red background for the cart count */
+  background-color: #f00;
+  /* Red background for the cart count */
   color: #fff;
-  border-radius: 50%; /* Make it a circle */
+  border-radius: 50%;
+  /* Make it a circle */
   padding: 5px 10px;
   font-size: 12px;
   font-weight: bold;
@@ -75,7 +102,91 @@
   border: none;
 }
 
+
+
+
+/* CSS */
+.button-1 {
+  background-color: #EA4C89;
+  border-radius: 8px;
+  border-style: none;
+  box-sizing: border-box;
+  color: #FFFFFF;
+  cursor: pointer;
+  display: inline-block;
+  font-family: "Haas Grot Text R Web", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-size: 14px;
+  font-weight: 500;
+  height: 40px;
+  line-height: 20px;
+  list-style: none;
+  margin: 0;
+  outline: none;
+  padding: 10px 16px;
+  position: relative;
+  text-align: center;
+  text-decoration: none;
+  transition: color 100ms;
+  vertical-align: baseline;
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: manipulation;
+}
+
+.button-1:hover,
+.button-1:focus {
+  background-color: #F082AC;
+}
+
+
+.hamburger-menu {
+  display: none
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 @media screen and (max-width: 768px) {
+
+  .hamburger-menu {
+    display: block;
+  }
+
+  .header {
+    transition: .7s;
+    height: 80px;
+    overflow-y: hidden;
+
+  }
+
+  .header.menu-opened {
+    height: 160px !important;
+    transition: .7s;
+  }
+
+  .header.menu-opened .nav {
+    display: block !important;
+  }
+
+  .header-container .logo {
+    align-self: flex-start;
+  }
+
   .header-container {
     display: flex;
     flex-direction: column;

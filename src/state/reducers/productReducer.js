@@ -103,8 +103,6 @@ const productReducer = (state = initialState, action) => {
     return {
       ...state,
       fetchedProducts: payload.products,
-      totalPages: payload.totalPages,
-      currentPageNumber: payload.page
     }
   }
 
@@ -143,19 +141,7 @@ const productReducer = (state = initialState, action) => {
     }
   }
 
-  if (type === ADD_PRODUCT) {
-    return {
-      ...state,
-      allProduct: payload
-    }
-  }
-
-  if (type === ADD_PRODUCT_FAILED) {
-    return {
-      ...state,
-      allProduct: []
-    }
-  }
+  
 
   return state
 };

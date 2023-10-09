@@ -1,7 +1,7 @@
 import { useForm } from "react-hook-form"
 import './pages.css'
 import { useDispatch } from "react-redux";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useState } from "react";
 import { useMutation } from "react-query";
 
@@ -9,6 +9,8 @@ import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { signUp } from "../state/actions";
 import Toast from "../constants/Toast";
+import Header from "../components/Header";
+import Footer from "../components/Footer";
 
 const Signup = () => {
   const dispatch = useDispatch();
@@ -59,8 +61,9 @@ const Signup = () => {
 
 
   return (
-    <div>
-      {/* <Toast /> */}
+    <div className="authForm">
+      <Toast />
+      <Header />
 
       <div className="login-box">
         <h2>Sign Up</h2>
@@ -113,12 +116,20 @@ const Signup = () => {
           </div>
           <button disabled={loading} type="submit" className='button-1'>
             {loading ? "Sign up...": "Sign up"}
-            Sign up
           </button>
         </form>
+        <span style={{ display: "flex", margin: "2rem 0", color: "#fff", paddingBottom: "1rem" }}>
+          <span class="txt1">
+            Already a member?
+          </span>
+          <Link style={{ color: "green", cursor: "pointer", textDecoration: "none" }} to="" class="txt1 bo1 hov1" href="#">
+            Sign up now
+          </Link>
+        </span>
       </div>
+
+      <Footer />
     </div>
-    
   )
 };
 

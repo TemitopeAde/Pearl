@@ -5,7 +5,6 @@ import App from './App';
 import { BrowserRouter } from "react-router-dom";
 import { QueryClient, QueryClientProvider } from 'react-query'
 import { Provider } from 'react-redux';
-import { ReactQueryDevtools } from 'react-query/devtools';
 import { store, Persistor } from './state/store';
 import { PersistGate } from "redux-persist/integration/react";
 
@@ -22,7 +21,7 @@ root.render(
             <App />
           </PersistGate>
           
-          <ReactQueryDevtools />
+          
         </QueryClientProvider>
       </BrowserRouter>
     </Provider>

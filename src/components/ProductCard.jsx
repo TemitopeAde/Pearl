@@ -22,16 +22,21 @@ import { getCartNumber, getCartProducts, addToCart } from '../state/actions/inde
 const ProductCard = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const products = useSelector((state) => state.products.fetchedProducts);
   const totalPages = useSelector((state) => state.products.totalPages);
-  const currentPage = useSelector((state) => state.products.currentPageNumber);
+
   const shoppingCart = useSelector((state) => state.products.shoppingCart);
   const [loading, setLoading] = useState();
-  const [page, setPage] = useState(1);
-  const [category, setCategory] = useState("male")
+  const [currentPage, setCurrentPage] = useState("");
+  const [products, setProducts] = useState([]);
+  const [nextPage, setNextPage] = useState("");
+  const [prevPage, setPrevPage] = useState("");
+
   const [cart, setCart] = useState([]);
   const [cartItems, setCartItems] = useState("");
   const [load, setLoad] = useState(false);
+  const [items, setItems] = useState();
+
+
 
   const {
     register,
@@ -39,15 +44,19 @@ const ProductCard = () => {
     formState: { errors },
   } = useForm()
 
+  
 
   useEffect(() => {
     dispatch(getCartProducts(cart))
     dispatch(getCartNumber(cartItems))
   }, [cart, cartItems, dispatch])
 
+
   useEffect(() => {
+    console.log("fetch")
     getAllProductsMutation.mutate();
-  }, [page])
+  }, [currentPage, nextPage, prevPage])
+
 
   const addCart = (product) => {
     const existingItem = shoppingCart.find((item) => item._id === product._id);
@@ -73,14 +82,21 @@ const ProductCard = () => {
     // ... Rest of your addToCart logic
   };
 
-  const getAllProductsMutation = useMutation((data) => dispatch(getAllProducts(page)), {
+  const getAllProductsMutation = useMutation((data) => dispatch(getAllProducts(currentPage)), {
     onMutate: () => {
       setLoading(true)
     },
 
     onSuccess: (data) => {
-     
+      console.log(data);
       setLoading(false)
+      setCurrentPage(data.meta.cursor?.current);
+      setProducts(data.productsWithImages);
+      console.log(products);
+      setPrevPage(data.meta.cursor?.prev);
+      setNextPage(data.meta.cursor?.next);
+
+      console.log(prevPage, nextPage, currentPage);
     },
 
     onError: () => {
@@ -106,18 +122,19 @@ const ProductCard = () => {
     },
   })
 
-  useEffect(() => {
-    getAllProductsMutation.mutate();
-  }, [])
+  // useEffect(() => {
+  //   getAllProductsMutation.mutate();
+  // }, [])
 
-  const handlePageChange = (newPage) => {
-    setPage(newPage);
-  };
+  // const handlePageChange = (newPage) => {
+  //   setPage(newPage);
+  // };
 
   const debouncedSearch = debounce((query) => {
     // Call your searchProducts function with the query
     searchMutation.mutate(query);
-  }, 3000); // 20,000 milliseconds (20 seconds)
+  }, 3000); 
+
 
   const onChange = (e) => {
     debouncedSearch(e.target.value);
@@ -128,6 +145,9 @@ const ProductCard = () => {
     pageNumbers.push(i);
   }
 
+  const handlePagination = (e) => {
+    setCurrentPage(e)
+  }
 
 
   switch (loading) {
@@ -141,66 +161,30 @@ const ProductCard = () => {
         <div className="container page-wrapper">
           <Toast />
           <div className="page-inner">
-            <div className="search-product">
-              <form>
-                <input
-                  type="text"
-                  {...register("query", { required: true })}
-                  className="search-form form-control"
-                  onChange={onChange}
-                  placeholder='Search products by name'
-                />
-
-                <select className='form-control' onChange={onChange}>
-                  <option value="" disabled>Select a category</option>
-                  <option value="male">Male</option>
-                  <option value="female">Female</option>
-                </select>
-
-              </form>
-            </div>
+            
             <div className="product-card-container">
+
+              {console.log(products)}
               
-              {(products.length !== 0 ? products && products.map((item, index) => (
+              {(products?.length !== 0 ? products?.map((item, index) => (
+                
                 <div key={index}>
                   <div className="product-card">
                     <div className="product-image">
-                      <Splide options={{
-                        autoplay: false,
-                        type: "loop",
-                        lazyLoad: true,
-                      }} aria-label="My Favorite Images">
-
-                        { item.images.map((pics, index) => {
-                        
-                          return (
-                            <SplideSlide key={index}>
-                              <img src={pics.url} alt={item.name} />
-                            </SplideSlide>
-                          )
-                        })}
-
-                       
-
-                      </Splide>
+                      <img src={`https://${item.image_url}`} alt={item.name} />
                     </div>
 
-                    <div className="product-info">
-                      <div className='flex-between'>
-                        <h6>{item?.category}</h6>
-                        <h6>{item?.color}</h6>
-                        <h6>{item?.size}</h6>
-                      </div>
-                      
+                    <div className="product-info">                      
                       <Link to={`/product/${item._id}`}>
                         <h5>{item?.name}</h5>
+                        {/* {console.log(item)} */}
                       </Link>
 
                       <div className="flex-between">
                         <button onClick={() => addCart(item)}>
                           <img src={cartImage} alt={item?.name} />
                         </button>
-                        <h5>{item?.price} NGN</h5>
+                        <h5>${item?.list_price}</h5>
                       </div>
 
                     </div>
@@ -210,39 +194,21 @@ const ProductCard = () => {
               )) : <h3>No products found</h3>)}
             </div>
 
-            {products.length !== 0 && <div className="products-pagination">
+            {products?.length !== 0 && <div className="products-pagination">
               <ul>
-                <li>
+                {prevPage && <li>
                   <button
-                    onClick={() => handlePageChange(page - 1)}
-                    disabled={parseInt(currentPage) === 1}
-                    className={parseInt(currentPage) === 1 ? "disabled" : ""}
-                  >
+                    onClick={() => handlePagination(prevPage)}>
                     Previous
                   </button>
-                </li>
-                {
-                  pageNumbers.map((item, index) => (
-
-                    <li key={index}>
-                      <button
-                        className={parseInt(currentPage) === item ? "active" : ""}
-                        onClick={() => handlePageChange(item)}
-                      >
-                        {item}
-                      </button>
-                    </li>
-                  ))
-                }
-                <li>
+                </li>}
+                
+                {nextPage && <li>
                   <button
-                    onClick={() => handlePageChange(page + 1)}
-                    disabled={parseInt(currentPage) === parseInt(totalPages)}
-                    className={parseInt(currentPage) === parseInt(totalPages) ? "disabled" : ""}
-                  >
+                    onClick={() => handlePagination(nextPage)}>
                     Next
                   </button>
-                </li>
+                </li>}
               </ul>
             </div>}
           </div>
