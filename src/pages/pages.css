@@ -64,7 +64,7 @@ input {
 }
 
 .product-card img {
-  height: 100%;
+  height: 280px !important;
 
 }
 

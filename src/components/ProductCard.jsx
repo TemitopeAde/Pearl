@@ -44,6 +44,8 @@ const ProductCard = () => {
     formState: { errors },
   } = useForm()
 
+  console.log(window.env.API_URL);
+
   
 
   useEffect(() => {
@@ -164,7 +166,7 @@ const ProductCard = () => {
             
             <div className="product-card-container">
 
-              {console.log(products)}
+              
               
               {(products?.length !== 0 ? products?.map((item, index) => (
                 
@@ -182,7 +184,7 @@ const ProductCard = () => {
 
                       <div className="flex-between">
                         <button onClick={() => addCart(item)}>
-                          <img src={cartImage} alt={item?.name} />
+                          {/* <img src={cartImage} alt={item?.name} /> */}
                         </button>
                         <h5>${item?.list_price}</h5>
                       </div>

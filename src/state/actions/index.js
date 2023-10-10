@@ -181,7 +181,7 @@ export const getAllProducts = (data) => async (dispatch) => {
 
   const productConfig = {
     headers: {
-      Authorization: "Bearer 48rCG5xpVdyPCpnaE3jDR2QZIALlXkQjTI6Sr9QP"
+      Authorization: `Bearer ${window.env.API_URL}`
     },
   };
 
