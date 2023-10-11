@@ -10,7 +10,7 @@ const authReducer = (state = initialState, action) => {
   if (type === SIGNIN_SUCCESS) {
     return {
       ...state,
-      token: payload.token
+      // token: payload.token
     }
   }
 

@@ -4,7 +4,7 @@ import './pages.css'
 import { useState } from "react";
 import { Link, useNavigate } from 'react-router-dom';
 import { useMutation } from 'react-query';
-import { login } from "../state/actions";
+import { login, sendResetPasswordToken } from "../state/actions";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import Footer from "../components/Footer"
@@ -12,41 +12,42 @@ import Transitions from '../constants/Transition'
 
 import Header from '../components/Header'
 
-const Signin = () => {
+const ResetPassword = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
   const [email, setEmail] = useState("")
-  const [password, setPassword] = useState("")
+ 
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm()
 
-  const loginMutation = useMutation((data) => dispatch(login(data)), {
+  const loginMutation = useMutation((data) => dispatch(sendResetPasswordToken(data)), {
     onMutate: () => {
       setLoading(true); // Set loading state to true before the mutation starts
     },
 
-    onSuccess: () => {
-      // data here is the result of the login mutation (e.g., user data)
-      setLoading(false); // Set loading state to false after a successful login
-      const notify = () => toast("Login successful");
-      notify();
+    onSuccess: (data) => {
+      console.log(data);
+      setLoading(false); 
+      setEmail("")   
+      const notify = () => toast(`${data.message}`);
+      notify();  
     },
 
     // Use onError callback to handle errors
     onError: (err) => {
-      setLoading(false); 
-      const notify = () => toast(err.response.data.message);
+      console.log(err);
+      setLoading(false); // Set loading state to false after an error
+      const notify = () => toast("User does not exist, email not sent");
       notify();
     },
   })
 
 
   const onSubmit = async (data) => {
-    console.log(data);
     loginMutation.mutate(data);
   };
 
@@ -67,7 +68,7 @@ const Signin = () => {
         />
         <Header />
         <div className="login-box">
-          <h2>Sign In</h2>
+          <h2>Reset Password</h2>
           <form onSubmit={handleSubmit(onSubmit)}>
 
             <div className="user-box">
@@ -80,27 +81,18 @@ const Signin = () => {
               />
               {errors.email && <span>This field is required</span>}
             </div>
-            <div className="user-box">
-              <input
-                type="password" {...register("password", { required: true })}
-                className='form-control'
-                placeholder='Enter password'
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-              />
-              {errors.password && <span>This field is required</span>}
-            </div>
+            
 
             <button type="submit" id="submit-login" className='button-1' disabled={loading}>
-              {loading ? 'Logging in...' : 'Login'}
+              {loading ? 'Reset Password ...' : 'Reset Password'}
             </button>
           </form>
           <span style={{ display: "flex", margin: "2rem 0", color: "#fff", paddingBottom: "1rem" }}>
-            <span class="txt1">
-              Forget password?
+            <span className="txt1">
+              Already a member?
             </span>
-            <Link style={{ color: "green", cursor: "pointer", textDecoration: "none" }} to="/forget-password" class="txt1 bo1 hov1" href="#">
-              Reset password now
+            <Link style={{ color: "green", cursor: "pointer", textDecoration: "none" }} to="/sign-in" class="txt1 bo1 hov1" href="#">
+              Sign in now
             </Link>
           </span>
 
@@ -111,4 +103,4 @@ const Signin = () => {
   )
 };
 
-export default Signin;
+export default ResetPassword;

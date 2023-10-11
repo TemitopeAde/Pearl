@@ -4,7 +4,7 @@ import Modal from 'react-bootstrap/Modal';
 
 
 const ModalContainer = ({ open, setOpen }) =>{
-  console.log(open, "show");
+  // console.log(open, "show");
 
   return (
     <>

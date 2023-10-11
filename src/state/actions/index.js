@@ -15,11 +15,13 @@ import {
   MODIFY_CART_ITEM_QUANTITY,
   GET_TOTAL_CART_NUMBER,
   GET_TOTAL_CART_PRICE,
-  CLEAR_CART
+  CLEAR_CART,
+  RESET_PASSWORD,
+  RESET_PASSWORD_ERROR
 } from './types';
 
 
-const baseUrlAuth = "https://backend-5kyc.onrender.com/api/v1/users"
+const baseUrlAuth = "http://127.0.0.1:5100/api/v1/users"
 const baseUrlProduct = "127.0.0.1:5100/products"
 
 export const login = (data) => async (dispatch) => {
@@ -232,7 +234,7 @@ export const getAllProducts = (data) => async (dispatch) => {
     //   type: FETCH_ALL_PRODUCTS,
     //   payload: productsWithImages,
     // });
-    
+
 
     return responseWithMeta;
   } catch (error) {
@@ -387,4 +389,90 @@ export const clearCart = () => async (dispatch) => {
     type: CLEAR_CART,
     payload: null
   })
+}
+
+
+export const sendResetPasswordToken = (data) => async (dispatch) => {
+  
+  const { email } = data;
+  console.log(data);
+  const config = {
+    headers: {
+      "Content-Type": "application/json",
+    },
+  };
+  const body = JSON.stringify({
+    email,
+  });
+
+  try {
+    // Make the login request to your server
+    const response = await axios.post(`${baseUrlAuth}/forget-password`, body, config);
+
+    if (response.status !== 200) {
+      throw new Error('Login failed'); // Throw an error for non-200 responses
+    }
+
+    // Assuming your server returns user data upon successful login
+    dispatch({
+      type: RESET_PASSWORD,
+      payload: response.data
+    })
+
+    const res = response.data;
+
+    // Return the user data
+    return res;
+  } catch (error) {
+    dispatch({
+      type: RESET_PASSWORD_ERROR,
+      payload: null
+    })
+  }
+
+}
+
+
+
+
+
+export const sendResetPasswordConfirm = (data) => async (dispatch) => {
+  
+  const { newPassword, token } = data;
+  console.log(newPassword, token);
+  const config = {
+    headers: {
+      "Content-Type": "application/json",
+    },
+  };
+  const body = JSON.stringify({
+    newPassword,
+    token
+  });
+
+  try {
+    // Make the login request to your server
+    const response = await axios.post(`${baseUrlAuth}/reset-password/${token}`, body, config);
+
+    if (response.status !== 200) {
+      throw new Error('Login failed'); // Throw an error for non-200 responses
+    }
+
+    // Assuming your server returns user data upon successful login
+    dispatch({
+      type: RESET_PASSWORD,
+      payload: response.data
+    })
+
+    const res = response.data;
+
+    // Return the user data
+    return res;
+  } catch (error) {
+    dispatch({
+      type: RESET_PASSWORD_ERROR,
+      payload: null
+    })
+  }
+
 }

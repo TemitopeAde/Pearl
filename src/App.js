@@ -8,20 +8,27 @@ import CartContainer from "./pages/CartContainer";
 import Checkout from "./pages/Checkout";
 import Success from "./pages/Success";
 import UpdateProduct from "./pages/EditProduct";
+import { AnimatePresence } from 'framer-motion';
+import ResetPassword from "./pages/ResetPassword";
+import ResetPasswordNow from "./pages/ResetPasswordNow";
 
 
 export default function App() {
   return (
-    <Routes>
-      <Route path="" element={<ProductList />} />
-      <Route path="sign-up" element={<Signup />} />
-      <Route path="sign-in" element={<Signin />} />
-      <Route path="add-product" element={<AddProduct />} />
-      <Route path="/product/:id" element={<ProductDetail />} />
-      <Route path="/cart" element={<CartContainer />} />
-      <Route path="/checkout" element={<Checkout />} />
-      <Route path="/payment-success" element={<Success />} />
-      <Route path="/update-product/:id" element={<UpdateProduct />} />
-    </Routes>
+    <AnimatePresence mode="wait" >
+      <Routes>
+        <Route path="" element={<ProductList />} />
+        <Route path="sign-up" element={<Signup />} />
+        <Route path="sign-in" element={<Signin />} />
+        <Route path="add-product" element={<AddProduct />} />
+        <Route path="/product/:id" element={<ProductDetail />} />
+        <Route path="/cart" element={<CartContainer />} />
+        <Route path="/checkout" element={<Checkout />} />
+        <Route path="/payment-success" element={<Success />} />
+        <Route path="/update-product/:id" element={<UpdateProduct />} />
+        <Route path="/forget-password" element={<ResetPassword />} />
+        <Route path="/reset-password/:token" element={<ResetPasswordNow />} />
+      </Routes>
+    </AnimatePresence>
   );
 }

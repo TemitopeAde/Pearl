@@ -44,7 +44,7 @@ const ProductCard = () => {
     formState: { errors },
   } = useForm()
 
-  console.log(window.env.API_URL);
+  // console.log(window.env.API_URL);
 
   
 

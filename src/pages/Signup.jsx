@@ -11,6 +11,7 @@ import { signUp } from "../state/actions";
 import Toast from "../constants/Toast";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
+import Transitions from '../constants/Transition'
 
 const Signup = () => {
   const dispatch = useDispatch();
@@ -21,7 +22,7 @@ const Signup = () => {
   const [confirmPassword, setConfirmPassword] = useState("")
   const [name, setName] = useState("")
 
-  
+
   const {
     register,
     handleSubmit,
@@ -61,75 +62,79 @@ const Signup = () => {
 
 
   return (
-    <div className="authForm">
-      <Toast />
-      <Header />
+    <Transitions>
 
-      <div className="login-box">
-        <h2>Sign Up</h2>
-        <form onSubmit={handleSubmit(onSubmit)}>
-          <div className="user-box">
 
-            <input
-              type="text"
-              {...register("name", { required: true })}
-              className='form-control'
-              placeholder='Enter name'
-              value={name}
-              onChange={(e) => setName(e.target.value)}
-            />
-            {errors.name && <span>This field is required</span>}
-          </div>
-          <div className="user-box">
+      <div className="authForm">
+        <Toast />
+        <Header />
 
-            <input
-              type="email"
-              {...register("email", { required: true })}
-              className='form-control'
-              placeholder='Enter email'
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-            />
-            {errors.email && <span>This field is required</span>}
-          </div>
-          <div className="user-box">
+        <div className="login-box">
+          <h2>Sign Up</h2>
+          <form onSubmit={handleSubmit(onSubmit)}>
+            <div className="user-box">
 
-            <input
-              type="password"
-              {...register("password", { required: true })}
-              className='form-control'
-              placeholder='Enter password'
-              onChange={(e) => setPassword(e.target.value)}
-            />
-            {errors.password && <span>This field is required</span>}
-          </div>
-          <div className="user-box">
+              <input
+                type="text"
+                {...register("name", { required: true })}
+                className='form-control'
+                placeholder='Enter name'
+                value={name}
+                onChange={(e) => setName(e.target.value)}
+              />
+              {errors.name && <span>This field is required</span>}
+            </div>
+            <div className="user-box">
 
-            <input
-              type="password" {...register("confirmPassword", { required: true })}
-              className='form-control'
-              placeholder='Enter confirm password'
-              value={confirmPassword}
-              onChange={(e) => setConfirmPassword(e.target.value)}
-            />
-            {errors.confirmPassword && <span>This field is required</span>}
-          </div>
-          <button disabled={loading} type="submit" className='button-1'>
-            {loading ? "Sign up...": "Sign up"}
-          </button>
-        </form>
-        <span style={{ display: "flex", margin: "2rem 0", color: "#fff", paddingBottom: "1rem" }}>
-          <span class="txt1">
-            Already a member?
+              <input
+                type="email"
+                {...register("email", { required: true })}
+                className='form-control'
+                placeholder='Enter email'
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+              />
+              {errors.email && <span>This field is required</span>}
+            </div>
+            <div className="user-box">
+
+              <input
+                type="password"
+                {...register("password", { required: true })}
+                className='form-control'
+                placeholder='Enter password'
+                onChange={(e) => setPassword(e.target.value)}
+              />
+              {errors.password && <span>This field is required</span>}
+            </div>
+            <div className="user-box">
+
+              <input
+                type="password" {...register("confirmPassword", { required: true })}
+                className='form-control'
+                placeholder='Enter confirm password'
+                value={confirmPassword}
+                onChange={(e) => setConfirmPassword(e.target.value)}
+              />
+              {errors.confirmPassword && <span>This field is required</span>}
+            </div>
+            <button disabled={loading} type="submit" className='button-1'>
+              {loading ? "Sign up..." : "Sign up"}
+            </button>
+          </form>
+          <span style={{ display: "flex", margin: "2rem 0", color: "#fff", paddingBottom: "1rem" }}>
+            <span class="txt1">
+              Already a member?
+            </span>
+            <Link style={{ color: "green", cursor: "pointer", textDecoration: "none" }} to="/sign-in" class="txt1 bo1 hov1" href="#">
+              Sign in now
+            </Link>
           </span>
-          <Link style={{ color: "green", cursor: "pointer", textDecoration: "none" }} to="" class="txt1 bo1 hov1" href="#">
-            Sign up now
-          </Link>
-        </span>
-      </div>
+        </div>
 
-      <Footer />
-    </div>
+        <Footer />
+      </div>
+    </Transitions>
   )
 };
 
