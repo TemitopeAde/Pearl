@@ -19,6 +19,7 @@ import {
   RESET_PASSWORD,
   RESET_PASSWORD_ERROR
 } from './types';
+import env from "react-dotenv";
 
 
 const baseUrlAuth = "http://127.0.0.1:5100/api/v1/users"
@@ -114,76 +115,59 @@ export const signUp = (data) => async (dispatch) => {
 
 }
 
-export const getProduct = (data) => async (dispatch) => {
-  // console.log(data, "data");
-  const url = `${baseUrlProduct}/${data}`
+export const getProductWithImage = (data) => async (dispatch) => {
+  const productUrl = `https://api.wps-inc.com/items/${data}`;
+  const imageUrl = `https://api.wps-inc.com/items/${data}/images`;
+
   try {
-    const config = {
+    const productConfig = {
       headers: {
         "Content-Type": "application/json",
+        Authorization: `Bearer 48rCG5xpVdyPCpnaE3jDR2QZIALlXkQjTI6Sr9QP`
       },
     };
 
-    const response = await axios.get(url, config);
-    if (response.status !== 200) {
-      throw new Error('Get product failed'); // Throw an error for non-200 responses
+    const productResponse = await axios.get(productUrl, productConfig);
+    if (productResponse.status !== 200) {
+      throw new Error('Get product failed');
     }
+
+    const imageConfig = {
+      method: 'get',
+      maxBodyLength: Infinity,
+      url: imageUrl,
+      headers: { 
+        'Authorization': 'Bearer 48rCG5xpVdyPCpnaE3jDR2QZIALlXkQjTI6Sr9QP'
+      }
+    };
+
+    const imageResponse = await axios.request(imageConfig);
 
     dispatch({
       type: GET_SINGLE_PRODUCT,
-      payload: response.data
-    })
+      payload: {
+        product: productResponse.data,
+        image: imageResponse.data
+      }
+    });
 
-    return response.data
+    return { product: productResponse.data, image: imageResponse.data };
   } catch (error) {
     dispatch({
       type: GET_SINGLE_PRODUCT,
       payload: null
-    })
-    throw error
-  }
-}
-
-
-export const getAllProduct = (data) => async (dispatch) => {
-  const url = `https://api.wps-inc.com/items?page[cursor]=${data}`
-
-  let config = {
-    headers: {
-      Authorization: "Bearer 48rCG5xpVdyPCpnaE3jDR2QZIALlXkQjTI6Sr9QP"
-    },
-  };
-
-  try {
-
-    const response = await axios.get(url, config);
-    if (response.status !== 200) {
-      throw new Error('Get all products failed'); // Thrw an error for non-200 responses
-    }
-
-    dispatch({
-      type: FETCH_ALL_PRODUCTS,
-      payload: response.data
-    })
-
-    console.log(response.data.data[1].id);
-    return response.data
-  } catch (error) {
-    dispatch({
-      type: FETCH_ALL_PRODUCTS_FAILED,
-      payload: null
-    })
-    throw error
+    });
+    throw error;
   }
 }
 
 
 export const getAllProducts = (data) => async (dispatch) => {
   const url = `https://api.wps-inc.com/items?page[cursor]=${data}`;
-
+  console.log(env.API_URL, "api")
   const productConfig = {
     headers: {
-      Authorization: `Bearer ${window.env.API_URL}`
+      Authorization: `Bearer ${env.API_URL}`
     },
   };
 
@@ -245,8 +229,6 @@ export const getAllProducts = (data) => async (dispatch) => {
     throw error;
   }
 };
-
-
 
 export const getCartNumber = (data) => async (dispatch) => {
   // console.log(data);
@@ -313,7 +295,7 @@ export const removeFromCart = (data) => async (dispatch) => {
 }
 
 export const modifyCartItemQuantity = (productId, quantity) => async (dispatch) => {
-  console.log(productId, quantity);
+  // console.log(productId, quantity);
   dispatch({
     type: MODIFY_CART_ITEM_QUANTITY,
     payload: { productId, quantity }

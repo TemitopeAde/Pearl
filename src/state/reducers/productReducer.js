@@ -23,12 +23,12 @@ const initialState = {
   currentPageNumber: "",
   shoppingCart: [],
   totalNumberCart: "",
-  totalPrice : ""
+  totalPrice: ""
 }
 
 
 const productReducer = (state = initialState, action) => {
-  
+
   const { type, payload } = action;
 
   if (type === CLEAR_CART) {
@@ -48,7 +48,7 @@ const productReducer = (state = initialState, action) => {
   }
 
   if (type === GET_TOTAL_CART_PRICE) {
-    const totalPrice = state.shoppingCart.reduce((total, item) => total + (item.price)*(item.quantity), 0);
+    const totalPrice = state.shoppingCart.reduce((total, item) => total + (item.price) * (item.quantity), 0);
     console.log(totalPrice, "total price");
     return {
       ...state,
@@ -57,10 +57,11 @@ const productReducer = (state = initialState, action) => {
   }
 
   if (type === REMOVE_FROM_CART) {
+    console.log(payload, "payload");
     const productIdToRemove = payload;
 
     // Filter out the item with the matching product ID
-    const updatedCartItems = state.shoppingCart.filter((item) => item._id !== productIdToRemove);
+    const updatedCartItems = state.shoppingCart.filter((item) => item?.data?.id !== productIdToRemove);
 
     return {
       ...state,
@@ -73,12 +74,12 @@ const productReducer = (state = initialState, action) => {
 
     // Find the cart item by product ID
     const updatedCartItems = state.shoppingCart.map((item) => {
-      if (item._id === productId) {
+      if (item?.id === productId) {
         // Update the quantity and total price of the matching item
         return {
           ...item,
           quantity: quantity,
-          totalPrice: item.price * quantity,
+          totalPrice: item?.list_price * quantity,
         };
       }
       return item;
@@ -141,7 +142,7 @@ const productReducer = (state = initialState, action) => {
     }
   }
 
-  
+
 
   return state
 };

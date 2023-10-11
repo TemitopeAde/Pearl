@@ -1,11 +1,15 @@
 .cart-grid {
   display: grid;
-  grid-template-columns: 1fr 1fr 0.7fr 0.7fr 0.5fr;
+  grid-template-columns:  1fr 0.7fr 0.7fr 0.5fr;
   padding: 2rem;
   gap: 1.5rem;
   row-gap: 3rem;
   align-items: center;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.modal-content {
+  padding: 2rem;
 }
 
 .product-image img {

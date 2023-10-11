@@ -96,10 +96,10 @@ const Signin = () => {
             </button>
           </form>
           <span style={{ display: "flex", margin: "2rem 0", color: "#fff", paddingBottom: "1rem" }}>
-            <span class="txt1">
+            <span className="txt1">
               Forget password?
             </span>
-            <Link style={{ color: "green", cursor: "pointer", textDecoration: "none" }} to="/forget-password" class="txt1 bo1 hov1" href="#">
+            <Link style={{ color: "green", cursor: "pointer", textDecoration: "none" }} to="/forget-password" className="txt1 bo1 hov1" href="#">
               Reset password now
             </Link>
           </span>

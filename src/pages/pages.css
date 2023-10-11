@@ -124,7 +124,8 @@ input {
   padding: 0;
   color: #fff;
   text-align: center;
-  margin: 1rem 0
+  margin: 1rem 0;
+  margin-bottom: 1.7rem;
 }
 
 .login-box .user-box {
@@ -456,6 +457,11 @@ body .card .description button:hover {
   gap: 2rem;
   margin-top: 5rem;
   margin-bottom: 5rem;
+  align-items: center
+}
+
+.product-img img {
+  height: 560px;
 }
 
 .product-details .product-description {

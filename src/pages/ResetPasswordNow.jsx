@@ -1,16 +1,16 @@
 import { useForm } from "react-hook-form"
 import { useDispatch } from 'react-redux';
-import './pages.css'
+import './pages.css';
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from 'react-router-dom';
 import { useMutation } from 'react-query';
 import { sendResetPasswordConfirm } from "../state/actions";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import Footer from "../components/Footer"
-import Transitions from '../constants/Transition'
+import Footer from "../components/Footer";
+import Transitions from '../constants/Transition';
+import Header from '../components/Header';
 
-import Header from '../components/Header'
 
 const ResetPasswordNow = () => {
   const { token } = useParams();
@@ -24,10 +24,6 @@ const ResetPasswordNow = () => {
     handleSubmit,
     formState: { errors },
   } = useForm();
-
-  useEffect(() => {
-
-  }, [])
 
   const resetMutation = useMutation((data) => dispatch(sendResetPasswordConfirm(data)), {
     onMutate: () => {
@@ -66,8 +62,6 @@ const ResetPasswordNow = () => {
     
 
   };
-
-  console.log(errors);
 
   return (
     <Transitions>

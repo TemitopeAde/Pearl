@@ -36,17 +36,11 @@ const ProductCard = () => {
   const [load, setLoad] = useState(false);
   const [items, setItems] = useState();
 
-
-
   const {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm()
-
-  // console.log(window.env.API_URL);
-
-  
+  } = useForm()  
 
   useEffect(() => {
     dispatch(getCartProducts(cart))
@@ -55,9 +49,12 @@ const ProductCard = () => {
 
 
   useEffect(() => {
-    console.log("fetch")
     getAllProductsMutation.mutate();
   }, [currentPage, nextPage, prevPage])
+
+  useEffect(() => {
+    getAllProductsMutation.mutate();
+  }, [])
 
 
   const addCart = (product) => {
@@ -165,11 +162,10 @@ const ProductCard = () => {
           <div className="page-inner">
             
             <div className="product-card-container">
-
+              {console.log(products)}
               
               
               {(products?.length !== 0 ? products?.map((item, index) => (
-                
                 <div key={index}>
                   <div className="product-card">
                     <div className="product-image">
@@ -177,7 +173,7 @@ const ProductCard = () => {
                     </div>
 
                     <div className="product-info">                      
-                      <Link to={`/product/${item._id}`}>
+                      <Link to={`/product/${item.id}`}>
                         <h5>{item?.name}</h5>
                         {/* {console.log(item)} */}
                       </Link>
@@ -192,9 +188,9 @@ const ProductCard = () => {
                     </div>
                   </div>
                 </div>
-
               )) : <h3>No products found</h3>)}
             </div>
+
 
             {products?.length !== 0 && <div className="products-pagination">
               <ul>

@@ -123,10 +123,10 @@ const Signup = () => {
             </button>
           </form>
           <span style={{ display: "flex", margin: "2rem 0", color: "#fff", paddingBottom: "1rem" }}>
-            <span class="txt1">
+            <span className="txt1">
               Already a member?
             </span>
-            <Link style={{ color: "green", cursor: "pointer", textDecoration: "none" }} to="/sign-in" class="txt1 bo1 hov1" href="#">
+            <Link style={{ color: "green", cursor: "pointer", textDecoration: "none" }} to="/sign-in" className="txt1 bo1 hov1" href="#">
               Sign in now
             </Link>
           </span>

@@ -22,15 +22,17 @@ const Cart = () => {
   }, [shoppingCart, dispatch])
 
   const addCart = (product) => {
-    const existingItem = shoppingCart.find((item) => item?._id === product?._id);
+    console.log(product);
+    const existingItem = shoppingCart.find((item) => item?.data?.id === product?._id);
 
-
-    console.log(existingItem);
+    
 
     if (existingItem) {
+      
       // If the item exists in the cart, modify its quantity
+      console.log(existingItem);
       const newQuantity = existingItem.quantity + 1;
-      dispatch(modifyCartItemQuantity(existingItem._id, newQuantity));
+      dispatch(modifyCartItemQuantity(existingItem?.data?.data?.id, newQuantity));
 
       const updated = () => toast("Product updated");
       updated();
@@ -70,17 +72,13 @@ const Cart = () => {
   return (
     <>
       <section className='cart-flex'>
-        {shoppingCart.length !== 0 ? shoppingCart?.map((item) => {
+        {shoppingCart.length !== 0 ? shoppingCart?.map((item, index) => {
           return (
-            <div key={item._id}>
+            <div key={index}>
               <section className="cart-grid" >
-                <div className='product-image'>
-                  <img src={item?.images[0]?.url} alt={item.name} />
-                </div>
+                
                 <div>
                   <h4>{item?.name}</h4>
-                  <h6>Size: {item?.size}</h6>
-                  <h6>Color: {item?.color}</h6>
                 </div>
 
                 <div className="product-quantity">
@@ -89,10 +87,11 @@ const Cart = () => {
                   <button onClick={() => addCart(item)}>+</button>
                 </div>
                 <div>
-                  <h4>{item?.price} NGN</h4>
+                  <h4>${item?.list_price}</h4>
                 </div>
                 <div className='delete-btn'>
-                  <button onClick={() => handleDelete(item._id)}>
+                  {console.log(item?.data?.id)}
+                  <button onClick={() => handleDelete(item?.data?.id)}>
                     <img src="https://img.icons8.com/color/96/delete-forever.png" alt="delete-forever" />
                   </button>
 
@@ -101,12 +100,12 @@ const Cart = () => {
             </div>
           )
         }) : <h6>No cart items</h6>}
-      </section>
+      </section> 
 
-      {/* <DeleteModal open={open} setOpen={setOpen} /> */}
+      {/* <DeleteModal open={open} setOpen={setOpen} />
 
 
-      {shoppingCart.length !== 0 && <section className='cart-proceed'>
+      {/* {shoppingCart.length !== 0 && <section className='cart-proceed'>
         <section>
           <h3>Total products</h3>
           <h4>{totalNumber}</h4>
@@ -116,7 +115,7 @@ const Cart = () => {
           <button onClick={() => navigate("/checkout")}>{`Proceed ${totalPrice} NGN`}</button>
           
         </section>
-      </section>}
+      </section>} */}
 
 
     </>
