@@ -164,7 +164,7 @@ export const getProductWithImage = (data) => async (dispatch) => {
 
 export const getAllProducts = (data) => async (dispatch) => {
   const url = `https://api.wps-inc.com/items?page[cursor]=${data}`;
-  console.log(env.API_URL, "api")
+  // console.log(env.API_URL, "api")
   const productConfig = {
     headers: {
       Authorization: `Bearer ${env.API_URL}`
@@ -180,7 +180,7 @@ export const getAllProducts = (data) => async (dispatch) => {
     }
 
     const products = productResponse.data.data;
-    console.log(products);
+    // console.log(products);
 
     // Fetch product images for each product
     const productsWithImages = await Promise.all(
@@ -259,7 +259,7 @@ export const searchProducts = (data) => async (dispatch) => {
       throw new Error('Search products failed'); // Throw an error for non-200 responses
     }
 
-    console.log(response.data);
+    // console.log(response.data);
 
     dispatch({
       type: SEARCH,
@@ -278,7 +278,7 @@ export const searchProducts = (data) => async (dispatch) => {
 
 
 export const addToCart = (data) => async (dispatch) => {
-  console.log(data);
+  // console.log(data);
   dispatch({
     type: ADD_TO_CART,
     payload: data
@@ -287,7 +287,7 @@ export const addToCart = (data) => async (dispatch) => {
 
 
 export const removeFromCart = (data) => async (dispatch) => {
-  console.log(data);
+  // console.log(data);
   dispatch({
     type: REMOVE_FROM_CART,
     payload: data
@@ -377,7 +377,7 @@ export const clearCart = () => async (dispatch) => {
 export const sendResetPasswordToken = (data) => async (dispatch) => {
   
   const { email } = data;
-  console.log(data);
+  // console.log(data);
   const config = {
     headers: {
       "Content-Type": "application/json",
@@ -421,7 +421,7 @@ export const sendResetPasswordToken = (data) => async (dispatch) => {
 export const sendResetPasswordConfirm = (data) => async (dispatch) => {
   
   const { newPassword, token } = data;
-  console.log(newPassword, token);
+  // console.log(newPassword, token);
   const config = {
     headers: {
       "Content-Type": "application/json",

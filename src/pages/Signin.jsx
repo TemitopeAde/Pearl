@@ -46,7 +46,7 @@ const Signin = () => {
 
 
   const onSubmit = async (data) => {
-    console.log(data);
+    // console.log(data);
     loginMutation.mutate(data);
   };
 

@@ -22,32 +22,34 @@ const Cart = () => {
   }, [shoppingCart, dispatch])
 
   const addCart = (product) => {
-    console.log(product);
-    const existingItem = shoppingCart.find((item) => item?.data?.id === product?._id);
+    // console.log(product?.id);
+    const existingItem = shoppingCart.find((item) => item?.id === product?.id);
 
-    
 
     if (existingItem) {
-      
-      // If the item exists in the cart, modify its quantity
-      console.log(existingItem);
-      const newQuantity = existingItem.quantity + 1;
-      dispatch(modifyCartItemQuantity(existingItem?.data?.data?.id, newQuantity));
+      // console.log(existingItem)
 
+      const newQuantity = existingItem.quantity + 1;
+      dispatch(modifyCartItemQuantity(existingItem?.id, newQuantity));
+      // dispatch(getTotalCartPrice())
       const updated = () => toast("Product updated");
       updated();
     } else {
+      console.log("new product")
       // If the item is not in the cart, add it with a quantity of 1
-      const newItem = { ...product, quantity: 1, totalPrice: product?.price };
+      const newItem = { ...product, quantity: 1, totalPrice: product?.list_price };
+      console.log(newItem);
       dispatch(addToCart(newItem));
       const updated = () => toast("Product added to cart");
       updated();
     }
   };
 
-  const handleDecreaseQuantity = (productId) => {
+  const handleDecreaseQuantity = (product) => {
     // Find the cart item by product ID
-    const cartItem = shoppingCart.find((item) => item._id === productId);
+    const productId = product?.id
+    console.log(productId)
+    const cartItem = shoppingCart.find((item) => item?.id === productId);
 
     if (cartItem) {
       if (cartItem.quantity === 1) {
@@ -60,7 +62,7 @@ const Cart = () => {
         updated();
       }
     }
-  };
+  }
 
   const handleDelete = (id) => {
     // setOpen(!open)
@@ -82,16 +84,16 @@ const Cart = () => {
                 </div>
 
                 <div className="product-quantity">
-                  <button onClick={() => handleDecreaseQuantity(item._id)}>-</button>
+                  <button onClick={() => handleDecreaseQuantity(item)}>-</button>
                   <h4>{item?.quantity}</h4>
                   <button onClick={() => addCart(item)}>+</button>
                 </div>
                 <div>
-                  <h4>${item?.list_price}</h4>
+                  <h4>{(item?.quantity * item?.list_price)?.toFixed(2)}</h4>
                 </div>
                 <div className='delete-btn'>
-                  {console.log(item?.data?.id)}
-                  <button onClick={() => handleDelete(item?.data?.id)}>
+                  {console.log(item?.id)}
+                  <button onClick={() => handleDelete(item?.id)}>
                     <img src="https://img.icons8.com/color/96/delete-forever.png" alt="delete-forever" />
                   </button>
 
@@ -102,20 +104,21 @@ const Cart = () => {
         }) : <h6>No cart items</h6>}
       </section> 
 
-      {/* <DeleteModal open={open} setOpen={setOpen} />
+       <DeleteModal open={open} setOpen={setOpen} />
 
 
-      {/* {shoppingCart.length !== 0 && <section className='cart-proceed'>
+       {shoppingCart.length !== 0 && <section className='cart-proceed'>
         <section>
           <h3>Total products</h3>
           <h4>{totalNumber}</h4>
         </section>
         <section className='continue-section'>
           <button id="clear-cart" onClick={() => dispatch(clearCart())}>Clear cart</button>
-          <button onClick={() => navigate("/checkout")}>{`Proceed ${totalPrice} NGN`}</button>
+          <button onClick={() => navigate("/checkout")}>{`Proceed $${parseFloat(totalPrice)?.toFixed(2)}`}</button>
+
           
         </section>
-      </section>} */}
+      </section>} 
 
 
     </>

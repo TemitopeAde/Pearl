@@ -23,7 +23,7 @@ const ProductDetail = () => {
   // console.log(shoppingCart);
 
   const cartItem = shoppingCart.find((item) => item?.id === product?.product?.data?.id);
-  console.log(cartItem);
+  // console.log(cartItem);
 
   useEffect(() => {
     getProductMutation.mutate()
@@ -42,10 +42,10 @@ const ProductDetail = () => {
       const updated = () => toast("Product updated");
       updated();
     } else {
-      console.log("new product")
+      // console.log("new product")
       // If the item is not in the cart, add it with a quantity of 1
       const newItem = { ...product, quantity: 1, totalPrice: product?.list_price };
-      console.log(newItem);
+      // console.log(newItem);
       dispatch(addToCart(newItem));
       const updated = () => toast("Product added to cart");
       updated();
@@ -68,10 +68,11 @@ const ProductDetail = () => {
     }
   })
 
-  const handleDecreaseQuantity = (productId) => {
+  const handleDecreaseQuantity = (product) => {
     // Find the cart item by product ID
+    const productId = product?.id
     console.log(productId)
-    const cartItem = shoppingCart.find((item) => item?.data?.id === productId);
+    const cartItem = shoppingCart.find((item) => item?.id === productId);
 
     if (cartItem) {
       if (cartItem.quantity === 1) {
@@ -85,8 +86,6 @@ const ProductDetail = () => {
       }
     }
   };
-
-  // console.log()
 
   switch (loading) {
     case true:
@@ -112,8 +111,8 @@ const ProductDetail = () => {
                 <h3> {`${product?.product?.data.name}`}</h3>
                 <h4>${`${product?.product?.data.list_price}`}</h4>
                 <div className="product-quantity">
-                  <button onClick={() => handleDecreaseQuantity(product?.product?.data?.id)}>-</button>
-                  <h4>{cartItem.quantity}</h4>
+                  <button onClick={() => handleDecreaseQuantity(product?.product?.data)}>-</button>
+                  <h4>{cartItem?.quantity}</h4>
                   
                   <button onClick={() => addCart(product?.product?.data)} style={{ background: "green" }}>+</button>
                 </div>

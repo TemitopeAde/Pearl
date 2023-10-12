@@ -40,7 +40,7 @@ const productReducer = (state = initialState, action) => {
 
   if (type === GET_TOTAL_CART_NUMBER) {
     const total = state.shoppingCart.reduce((total, item) => total + item.quantity, 0);
-    console.log(total, "total");
+    // console.log(total, "total");
     return {
       ...state,
       totalNumberCart: total
@@ -48,8 +48,8 @@ const productReducer = (state = initialState, action) => {
   }
 
   if (type === GET_TOTAL_CART_PRICE) {
-    const totalPrice = state.shoppingCart.reduce((total, item) => total + (item.price) * (item.quantity), 0);
-    console.log(totalPrice, "total price");
+    const totalPrice = state.shoppingCart.reduce((total, item) => total + (item?.list_price) * (item?.quantity), 0);
+    // console.log(totalPrice, "total price");
     return {
       ...state,
       totalPrice
@@ -57,11 +57,8 @@ const productReducer = (state = initialState, action) => {
   }
 
   if (type === REMOVE_FROM_CART) {
-    console.log(payload, "payload");
-    const productIdToRemove = payload;
-
     // Filter out the item with the matching product ID
-    const updatedCartItems = state.shoppingCart.filter((item) => item?.data?.id !== productIdToRemove);
+    const updatedCartItems = state.shoppingCart.filter((item) => item?.id !== payload);
 
     return {
       ...state,

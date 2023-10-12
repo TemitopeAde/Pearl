@@ -72,7 +72,7 @@ const AddProduct = () => {
   
 
   const uploadProduct = async (data) => {
-    console.log(data);
+    // console.log(data);
     try {
       const formData = new FormData();
       formData.append('name', data.name);
@@ -120,7 +120,7 @@ const AddProduct = () => {
   };
 
   const onSubmit = (data) => {
-    console.log(data);
+    // console.log(data);
     uploadProduct(data);
   };
 

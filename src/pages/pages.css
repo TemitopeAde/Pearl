@@ -59,11 +59,11 @@ input {
 
 
 .product-card {
-  height: 396px;
+  height: 435px;
   overflow: hidden;
 }
 
-.product-card img {
+.product-image img {
   height: 280px !important;
 
 }

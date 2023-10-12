@@ -3,7 +3,7 @@ import Modal from 'react-bootstrap/Modal';
 
 
 const DeleteModal = ({ open, setOpen }) => {
-  console.log(open, "show");
+  // console.log(open, "show");
 
   return (
     <>

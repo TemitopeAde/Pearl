@@ -30,7 +30,7 @@ const ResetPassword = () => {
     },
 
     onSuccess: (data) => {
-      console.log(data);
+      // console.log(data);
       setLoading(false); 
       setEmail("")   
       const notify = () => toast(`${data.message}`);
@@ -39,7 +39,7 @@ const ResetPassword = () => {
 
     // Use onError callback to handle errors
     onError: (err) => {
-      console.log(err);
+      // console.log(err);
       setLoading(false); // Set loading state to false after an error
       const notify = () => toast("User does not exist, email not sent");
       notify();

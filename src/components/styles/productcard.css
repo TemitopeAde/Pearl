@@ -11,13 +11,14 @@
 .product-info h3,
 .product-info h5,
 .product-info h4 {
-  margin: 0 !important;
-  padding: 0 !important;
+  /* margin: 0 !important; */
+  /* padding: 0 !important; */
   text-transform: capitalize;
 }
 
 .product-info h5 {
-  color: #ad7d52;
+  color: #000000;
+  font-weight: bold;
 }
 
 .product-info h4 {
@@ -29,6 +30,7 @@
 .product-info h5,
 .product-info h6 {
   text-transform: capitalize;
+  text-align: center;
 }
 
 .product-card .card-flex {
@@ -40,10 +42,10 @@
 }
 
 .product-info {
-  display: flex;
+  /* display: flex;
   flex-direction: column;
   gap: 10px;
-  padding: 10px;
+  padding: 10px; */
 }
 
 .product-card {

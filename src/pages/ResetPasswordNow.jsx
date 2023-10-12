@@ -53,7 +53,7 @@ const ResetPasswordNow = () => {
     }
 
     if (tokenPassword.newPassword === confirmPassword) {
-      console.log(tokenPassword);
+      // console.log(tokenPassword);
       resetMutation.mutate(tokenPassword);
     } else {
       const notify = () => toast("Passwords do not match");

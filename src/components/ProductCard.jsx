@@ -40,7 +40,7 @@ const ProductCard = () => {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm()  
+  } = useForm()
 
   useEffect(() => {
     dispatch(getCartProducts(cart))
@@ -56,29 +56,29 @@ const ProductCard = () => {
     getAllProductsMutation.mutate();
   }, [])
 
+  // console.log(shoppingCart);
 
   const addCart = (product) => {
-    const existingItem = shoppingCart.find((item) => item._id === product._id);
-    
+    // console.log(product?.id);
+    const existingItem = shoppingCart.find((item) => item?.id === product?.id);
+
 
     if (existingItem) {
-      // If the item exists in the cart, modify its quantity
-      const newQuantity = existingItem.quantity + 1;
-  
-      dispatch(modifyCartItemQuantity(existingItem._id, newQuantity));
+      // console.log(existingItem)
 
+      const newQuantity = existingItem.quantity + 1;
+      dispatch(modifyCartItemQuantity(existingItem?.id, newQuantity));
       const updated = () => toast("Product updated");
       updated();
     } else {
+      // console.log("new product")
       // If the item is not in the cart, add it with a quantity of 1
-      const newItem = { ...product, quantity: 1, totalPrice: product.price };
+      const newItem = { ...product, quantity: 1, totalPrice: product?.list_price };
+      // console.log(newItem);
       dispatch(addToCart(newItem));
-
       const updated = () => toast("Product added to cart");
       updated();
     }
-
-    // ... Rest of your addToCart logic
   };
 
   const getAllProductsMutation = useMutation((data) => dispatch(getAllProducts(currentPage)), {
@@ -87,15 +87,15 @@ const ProductCard = () => {
     },
 
     onSuccess: (data) => {
-      console.log(data);
+      // console.log(data);
       setLoading(false)
       setCurrentPage(data.meta.cursor?.current);
       setProducts(data.productsWithImages);
-      console.log(products);
+      // console.log(products);
       setPrevPage(data.meta.cursor?.prev);
       setNextPage(data.meta.cursor?.next);
 
-      console.log(prevPage, nextPage, currentPage);
+      // console.log(prevPage, nextPage, currentPage);
     },
 
     onError: () => {
@@ -132,7 +132,7 @@ const ProductCard = () => {
   const debouncedSearch = debounce((query) => {
     // Call your searchProducts function with the query
     searchMutation.mutate(query);
-  }, 3000); 
+  }, 3000);
 
 
   const onChange = (e) => {
@@ -160,11 +160,11 @@ const ProductCard = () => {
         <div className="container page-wrapper">
           <Toast />
           <div className="page-inner">
-            
+
             <div className="product-card-container">
-              {console.log(products)}
-              
-              
+              {/* {console.log(products)} */}
+
+
               {(products?.length !== 0 ? products?.map((item, index) => (
                 <div key={index}>
                   <div className="product-card">
@@ -172,18 +172,24 @@ const ProductCard = () => {
                       <img src={`https://${item.image_url}`} alt={item.name} />
                     </div>
 
-                    <div className="product-info">                      
+                    <div className="product-info">
                       <Link to={`/product/${item.id}`}>
                         <h5>{item?.name}</h5>
-                        {/* {console.log(item)} */}
                       </Link>
-
-                      <div className="flex-between">
+                      <h5 style={{ margin: "7px 0" }}>${item?.list_price}</h5>
+                      <div>
                         <button onClick={() => addCart(item)}>
-                          {/* <img src={cartImage} alt={item?.name} /> */}
+                          <img src={cartImage} alt={item?.name} />
+                        </button>
+                      </div>
+
+                      {/* <div className="flex-between">
+                        <button onClick={() => addCart(item)}>
+                          <img src={cartImage} alt={item?.name} />
+                          <h5>${item?.list_price}</h5>
                         </button>
                         <h5>${item?.list_price}</h5>
-                      </div>
+                      </div> */}
 
                     </div>
                   </div>
@@ -200,7 +206,7 @@ const ProductCard = () => {
                     Previous
                   </button>
                 </li>}
-                
+
                 {nextPage && <li>
                   <button
                     onClick={() => handlePagination(nextPage)}>

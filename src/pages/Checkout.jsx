@@ -43,7 +43,7 @@ const Signup = () => {
 
     // Use onError callback to handle errors
     onError: (err) => {
-      console.log(err.response.data.message, "err");
+      // console.log(err.response.data.message, "err");
       setLoading(false); // Set loading state to false after an error
       const notify = () => toast(err.response.data.message);
       notify();
@@ -51,7 +51,7 @@ const Signup = () => {
   })
 
   const onSubmit = (data) => {
-    console.log(data);
+    // console.log(data);
     checkOutMutation.mutate(data)
   }
 
