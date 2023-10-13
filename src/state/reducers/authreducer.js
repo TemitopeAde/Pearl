@@ -1,11 +1,26 @@
-import { LOGOUT, SIGNIN_FAILED, SIGNIN_SUCCESS } from "../actions/types";
+import { FETCH_KEY, FETCH_KEY_FAILED, LOGOUT, SIGNIN_FAILED, SIGNIN_SUCCESS } from "../actions/types";
 
 const initialState = {
   token: null,
+  secret: ""
 }
 
 const authReducer = (state = initialState, action) => {
   const { type, payload } = action;
+
+  if (type === FETCH_KEY) {
+    return {
+      ...state,
+      secret: payload
+    }
+  }
+
+  if (type === FETCH_KEY_FAILED) {
+    return {
+      ...state,
+      secret: ""
+    }
+  }
 
   if (type === SIGNIN_SUCCESS) {
     return {

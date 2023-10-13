@@ -1,12 +1,10 @@
 import React, { useEffect, useState } from 'react';
-import { Splide, SplideSlide } from '@splidejs/react-splide';
-import { Link, useNavigate } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 import '@splidejs/react-splide/css/skyblue';
 import '@splidejs/react-splide/css/sea-green';
 import { useMutation } from 'react-query';
 import { useDispatch, useSelector } from 'react-redux'
-import debounce from 'lodash/debounce';
-import { getAllProducts, login, modifyCartItemQuantity, searchProducts } from '../state/actions/index';
+import { getAllProducts, modifyCartItemQuantity } from '../state/actions/index';
 import Loader from "../components/Loader";
 import { useForm } from "react-hook-form"
 import 'swiper/css';
@@ -21,20 +19,17 @@ import { getCartNumber, getCartProducts, addToCart } from '../state/actions/inde
 
 const ProductCard = () => {
   const dispatch = useDispatch();
-  const navigate = useNavigate();
-  const totalPages = useSelector((state) => state.products.totalPages);
-
   const shoppingCart = useSelector((state) => state.products.shoppingCart);
   const [loading, setLoading] = useState();
   const [currentPage, setCurrentPage] = useState("");
   const [products, setProducts] = useState([]);
   const [nextPage, setNextPage] = useState("");
   const [prevPage, setPrevPage] = useState("");
+  const [query, setQuery] = useState("");
 
   const [cart, setCart] = useState([]);
   const [cartItems, setCartItems] = useState("");
-  const [load, setLoad] = useState(false);
-  const [items, setItems] = useState();
+
 
   const {
     register,
@@ -50,7 +45,7 @@ const ProductCard = () => {
 
   useEffect(() => {
     getAllProductsMutation.mutate();
-  }, [currentPage, nextPage, prevPage])
+  }, [currentPage, nextPage, prevPage, dispatch])
 
   useEffect(() => {
     getAllProductsMutation.mutate();
@@ -64,24 +59,19 @@ const ProductCard = () => {
 
 
     if (existingItem) {
-      // console.log(existingItem)
-
       const newQuantity = existingItem.quantity + 1;
       dispatch(modifyCartItemQuantity(existingItem?.id, newQuantity));
       const updated = () => toast("Product updated");
       updated();
     } else {
-      // console.log("new product")
-      // If the item is not in the cart, add it with a quantity of 1
       const newItem = { ...product, quantity: 1, totalPrice: product?.list_price };
-      // console.log(newItem);
       dispatch(addToCart(newItem));
       const updated = () => toast("Product added to cart");
       updated();
     }
   };
 
-  const getAllProductsMutation = useMutation((data) => dispatch(getAllProducts(currentPage)), {
+  const getAllProductsMutation = useMutation((data) => dispatch(getAllProducts({ currentPage, query })), {
     onMutate: () => {
       setLoading(true)
     },
@@ -94,60 +84,35 @@ const ProductCard = () => {
       // console.log(products);
       setPrevPage(data.meta.cursor?.prev);
       setNextPage(data.meta.cursor?.next);
-
-      // console.log(prevPage, nextPage, currentPage);
     },
 
     onError: () => {
       setLoading(false)
     }
   })
-  const searchMutation = useMutation((data) => dispatch(searchProducts(data)), {
-    onMutate: () => {
-      setLoad(true); // Set loading state to true before the mutation starts
-    },
-
-    onSuccess: (data) => {
-
-      setLoad(false); // Set loading state to false after a successful login
-      navigate("/")
-    },
-
-    // Use onError callback to handle errors
-    onError: () => {
-      setLoad(false); // Set loading state to false after an error
-      // const notify = () => toast("Product not found");
-      // notify();
-    },
-  })
-
-  // useEffect(() => {
-  //   getAllProductsMutation.mutate();
-  // }, [])
-
-  // const handlePageChange = (newPage) => {
-  //   setPage(newPage);
-  // };
-
-  const debouncedSearch = debounce((query) => {
-    // Call your searchProducts function with the query
-    searchMutation.mutate(query);
-  }, 3000);
 
 
-  const onChange = (e) => {
-    debouncedSearch(e.target.value);
-  }
 
-  const pageNumbers = [];
-  for (let i = Math.max(1, parseInt(currentPage) - 3); i <= Math.min(parseInt(totalPages), parseInt(currentPage) + 3); i++) {
-    pageNumbers.push(i);
-  }
 
   const handlePagination = (e) => {
     setCurrentPage(e)
   }
 
+  const onSubmit = (e) => {
+    getAllProductsMutation.mutate();
+  }
+  console.log(query);
+  const handleSearch = () => {
+    
+    if (!query) {
+      getAllProductsMutation.mutate();
+    }
+    // Add any additional logic for non-empty queries here
+    // ...
+
+    // Reset the query value after the mutation
+    setQuery(""); // Clear the input field
+  };
 
   switch (loading) {
     case true:
@@ -160,9 +125,32 @@ const ProductCard = () => {
         <div className="container page-wrapper">
           <Toast />
           <div className="page-inner">
+            <div className="search-product">
+              <form onSubmit={handleSubmit(onSubmit)}>
+                <div style={{ position: "relative" }}>
+                  <input
+                    type="text"
+                    {...register("query", { required: true })}
+                    className="search-form form-control"
+                    onChange={(e) => setQuery(e.target.value)}
+                    value={query}
+                    placeholder='Search products by name'
+                  />
+
+                  <span onClick={handleSearch} style={{ display: query ? 'inline-block' : 'none' }}>
+                    <svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="20" height="20" viewBox="0 0 30 30">
+                      <path d="M 7 4 C 6.744125 4 6.4879687 4.0974687 6.2929688 4.2929688 L 4.2929688 6.2929688 C 3.9019687 6.6839688 3.9019687 7.3170313 4.2929688 7.7070312 L 11.585938 15 L 4.2929688 22.292969 C 3.9019687 22.683969 3.9019687 23.317031 4.2929688 23.707031 L 6.2929688 25.707031 C 6.6839688 26.098031 7.3170313 26.098031 7.7070312 25.707031 L 15 18.414062 L 22.292969 25.707031 C 22.682969 26.098031 23.317031 26.098031 23.707031 25.707031 L 25.707031 23.707031 C 26.098031 23.316031 26.098031 22.682969 25.707031 22.292969 L 18.414062 15 L 25.707031 7.7070312 C 26.098031 7.3170312 26.098031 6.6829688 25.707031 6.2929688 L 23.707031 4.2929688 C 23.316031 3.9019687 22.682969 3.9019687 22.292969 4.2929688 L 15 11.585938 L 7.7070312 4.2929688 C 7.5115312 4.0974687 7.255875 4 7 4 z"></path>
+                    </svg>
+                  </span>
+                </div>
+
+
+                <button type="submit">Search</button>
+              </form>
+            </div>
 
             <div className="product-card-container">
-              {/* {console.log(products)} */}
+
 
 
               {(products?.length !== 0 ? products?.map((item, index) => (
@@ -178,7 +166,7 @@ const ProductCard = () => {
                       </Link>
                       <h5 style={{ margin: "7px 0" }}>${item?.list_price}</h5>
                       <div>
-                        <button onClick={() => addCart(item)}>
+                        <button type='button' onClick={() => addCart(item)}>
                           <img src={cartImage} alt={item?.name} />
                         </button>
                       </div>

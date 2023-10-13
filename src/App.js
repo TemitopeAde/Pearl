@@ -10,6 +10,7 @@ import Success from "./pages/Success";
 import { AnimatePresence } from 'framer-motion';
 import ResetPassword from "./pages/ResetPassword";
 import ResetPasswordNow from "./pages/ResetPasswordNow";
+import CheckoutForm from "./pages/Checkout";
 
 
 export default function App() {
@@ -21,7 +22,7 @@ export default function App() {
         <Route path="sign-in" element={<Signin />} />
         <Route path="/product/:id" element={<ProductDetail />} />
         <Route path="/cart" element={<CartContainer />} />
-        <Route path="/checkout" element={<Checkout />} />
+        <Route path="/checkout" element={<CheckoutForm />} />
         <Route path="/payment-success" element={<Success />} />
         <Route path="/forget-password" element={<ResetPassword />} />
         <Route path="/reset-password/:token" element={<ResetPasswordNow />} />

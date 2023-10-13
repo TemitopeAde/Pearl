@@ -24,9 +24,11 @@
 .product-info h4 {
   font-weight: 400;
 }
+
 .img-preview {
   width: 50px;
 }
+
 .product-info h5,
 .product-info h6 {
   text-transform: capitalize;
@@ -74,7 +76,7 @@
   justify-content: space-between;
 }
 
-.product-info button {
+.product-info button[type="submit"] {
   background: none;
   outline: none;
   border: none;
@@ -82,8 +84,12 @@
   transition: 0.7s;
 }
 
+.product-info button[type="button"] {
+  position: absolute;
+}
+
 .search-product {
-  margin: 1.5rem 0;
+  margin: 2.5rem 0;
 }
 
 .search-product .search-form {
@@ -112,8 +118,7 @@
   cursor: pointer;
 }
 
-.products-pagination li {
-}
+.products-pagination li {}
 
 .products-pagination button.active {
   background: #146c43;
@@ -125,7 +130,7 @@
   display: none;
 }
 
-.search-product button {
+.search-product button[type="sub"] {
   color: #fff !important;
   background-color: #198754 !important;
 
@@ -161,12 +166,41 @@
   margin: 0;
 }
 
+.search-product form span {
+  position: absolute;
+  right: 7px;
+  top: 17px;
+  cursor: pointer;
+
+  display: none;
+}
+
+.show {
+  display: block;
+}
+
+.search-product button[type="submit"] {
+  height: 60px;
+  border: none;
+  outline: none;
+  background: crimson;
+  color: whitesmoke;
+  transition: 0.7s;
+  border-radius: 12px;
+}
+
+.search-product button[type="submit"]:hover {
+  color: whitesmoke;
+  background: rgb(135, 3, 3);
+}
+
 .search-product form {
   display: grid;
-  grid-template-columns: 2fr 1.3fr;
+  grid-template-columns: 30vw 10vw;
   gap: 2rem;
   grid-template-rows: 40px;
 }
+
 .product-info button:hover {
   transform: scale(1.1);
 }
@@ -198,6 +232,12 @@
   transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
 }
 
+.product-info button[type="button"] {
+  background: none;
+  outline: none;
+  border: none;
+}
+
 .form-control:focus {
   color: #212529;
   background-color: #fff;
@@ -210,5 +250,12 @@
   .product-card-container {
     grid-template-columns: 1fr;
     gap: 4rem
+  }
+
+  .search-product form {
+    display: grid;
+    grid-template-columns: 50vw 30vw;
+    gap: 2rem;
+    grid-template-rows: 40px;
   }
 }
