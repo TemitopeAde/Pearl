@@ -107,9 +107,7 @@ const ProductCard = () => {
     if (!query) {
       getAllProductsMutation.mutate();
     }
-    // Add any additional logic for non-empty queries here
-    // ...
-
+    
     // Reset the query value after the mutation
     setQuery(""); // Clear the input field
   };

@@ -5,6 +5,8 @@ import { useSelector, useDispatch } from 'react-redux';
 import { addToCart, getTotalCartPrice, modifyCartItemQuantity, removeFromCart, getTotalCartNumber, clearCart } from '../state/actions';
 import { toast } from 'react-toastify';
 import DeleteModal from './DeleteModal';
+import PayButton from '../pages/PayButton';
+
 
 const Cart = () => {
   const shoppingCart = useSelector((state) => state.products.shoppingCart);
@@ -114,7 +116,8 @@ const Cart = () => {
         </section>
         <section className='continue-section'>
           <button id="clear-cart" onClick={() => dispatch(clearCart())}>Clear cart</button>
-          <button onClick={() => navigate("/checkout")}>{`Proceed $${parseFloat(totalPrice)?.toFixed(2)}`}</button>
+          <PayButton cartItems={shoppingCart} />
+          {/* <button onClick={() => navigate("/checkout")}>{`Proceed $${parseFloat(totalPrice)?.toFixed(2)}`}</button> */}
 
           
         </section>

@@ -503,9 +503,19 @@ body .card .description button:hover {
 .authForm {
   background: -webkit-linear-gradient(bottom, #0250c5, #d43f8d);
 }
+.back-div {
+  display: flex;
+  justify-content: center;
+}
 
-.login-box {
-  
+.back-btn {
+  color: white;
+  padding: 10px 20px;
+  background: rgb(25, 135, 0);
+  text-decoration: none;
+
+  outline: none;
+  border: none;
 }
 
 
