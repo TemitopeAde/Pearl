@@ -103,7 +103,7 @@ const ProductCard = () => {
   }
   console.log(query);
   const handleSearch = () => {
-    
+    window.location.reload(true);
     if (!query) {
       getAllProductsMutation.mutate();
     }
