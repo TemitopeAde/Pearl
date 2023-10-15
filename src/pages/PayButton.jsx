@@ -6,12 +6,16 @@ const PayButton = ({ cartItems }) => {
 
   const handlePay = async (e) => {
     e.preventDefault();
-    const res = await axios.post("http://127.0.0.1:5100/api/v1/users/checkout", {
+    const res = await axios.post("https://backend-5kyc.onrender.com/api/v1/users/checkout", {
       cartItems
     });
 
+    if (res.data.url) {
+      window.location.href = res.data.url
+    }
 
-    console.log(res.data.url);
+    console.log(res);
+
   }
   return (
     <div>

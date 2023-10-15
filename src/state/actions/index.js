@@ -24,7 +24,7 @@ import {
 import env from "react-dotenv";
 
 
-const baseUrlAuth = "http://127.0.0.1:5100/api/v1/users"
+const baseUrlAuth = "https://backend-5kyc.onrender.com/api/v1/users"
 const baseUrlProduct = "127.0.0.1:5100/products"
 
 
