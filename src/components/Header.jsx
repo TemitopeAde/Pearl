@@ -10,7 +10,9 @@ const Header = () => {
   const cartNumber = useSelector(state => state.products.shoppingCart)
   const [open, setOpen] = useState(false)
   const [toggle, setToggle] = useState(false);
-  const dispatch = useDispatch();
+  const refreshHomePage = () => {
+    window.location.href = '/';
+  };
   const handleToggleClick = () => {
     setToggle(!toggle);
 
@@ -31,7 +33,7 @@ const Header = () => {
       <header className="header">
         <div className="header-container">
           <div className="logo">
-            <Link onClick={() => window.location.reload()} to="/">
+            <Link onClick={refreshHomePage} to="/">
               <img src={logo} alt="logo" />
             </Link>
           </div>
