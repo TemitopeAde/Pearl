@@ -19,13 +19,12 @@ export default function App() {
   return (
     <AnimatePresence mode="wait" >
       <Routes>
-        <Route path="" element={<ProductList />} />
+        <Route exact path="/" element={<ProductList />} />
         <Route path="sign-up" element={<Signup />} />
         <Route path="sign-in" element={<Signin />} />
         <Route path="/product/:id" element={<ProductDetail />} />
         <Route path="/cart" element={<CartContainer />} />
         <Route path="/checkout" element={<CheckoutForm />} />
-        {/* <Route path="/payment-success" element={<Success />} /> */}
         <Route path="/forget-password" element={<ResetPassword />} />
         <Route path="/reset-password/:token" element={<ResetPasswordNow />} />
         <Route path="/payment-success" element={<PaymentSuccess />} />

@@ -16,7 +16,7 @@ const Cart = () => {
   const navigate = useNavigate();
   const [open, setOpen] = useState(false);
 
-  console.log(shoppingCart);
+  // console.log(shoppingCart);
 
   useEffect(() => {
     dispatch(getTotalCartNumber());
@@ -37,10 +37,10 @@ const Cart = () => {
       const updated = () => toast("Product updated");
       updated();
     } else {
-      console.log("new product")
+      // console.log("new product")
       // If the item is not in the cart, add it with a quantity of 1
       const newItem = { ...product, quantity: 1, totalPrice: product?.list_price };
-      console.log(newItem);
+      // console.log(newItem);
       dispatch(addToCart(newItem));
       const updated = () => toast("Product added to cart");
       updated();
@@ -50,7 +50,7 @@ const Cart = () => {
   const handleDecreaseQuantity = (product) => {
     // Find the cart item by product ID
     const productId = product?.id
-    console.log(productId)
+    // console.log(productId)
     const cartItem = shoppingCart.find((item) => item?.id === productId);
 
     if (cartItem) {
@@ -94,7 +94,7 @@ const Cart = () => {
                   <h4>{(item?.quantity * item?.list_price)?.toFixed(2)}</h4>
                 </div>
                 <div className='delete-btn'>
-                  {console.log(item?.id)}
+                  {/* {console.log(item?.id)} */}
                   <button onClick={() => handleDelete(item?.id)}>
                     <img src="https://img.icons8.com/color/96/delete-forever.png" alt="delete-forever" />
                   </button>

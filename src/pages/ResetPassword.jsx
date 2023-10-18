@@ -91,7 +91,7 @@ const ResetPassword = () => {
             <span className="txt1">
               Already a member?
             </span>
-            <Link style={{ color: "green", cursor: "pointer", textDecoration: "none" }} to="/sign-in" class="txt1 bo1 hov1" href="#">
+            <Link style={{ color: "green", cursor: "pointer", textDecoration: "none" }} to="/sign-in" className="txt1 bo1 hov1" href="#">
               Sign in now
             </Link>
           </span>

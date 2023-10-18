@@ -16,7 +16,6 @@ const queryClient = new QueryClient();
 const stripePromise = loadStripe('pk_test_8lvJpXB66TzWBz4Z9QzGTINl00mw2SI7Er');
 
 const options = {
-  // passing the client secret obtained in step 3
   clientSecret: 'pi_3O0LgmBnuO3qsQ6n0mH03CM3_secret_Me9LSqjYbU3z5ZIVfd2jUs6ae',
 };
 
