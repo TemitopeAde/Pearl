@@ -1,15 +1,16 @@
 import React, { useState } from 'react';
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { Link } from 'react-router-dom'; // Assuming you're using React Router
 import "./styles/Header.css"
 import ModalContainer from './Modal';
 import logo from '../images/logo.webp'
+import { getAllProducts } from '../state/actions/index.js'
 
 const Header = () => {
   const cartNumber = useSelector(state => state.products.shoppingCart)
   const [open, setOpen] = useState(false)
   const [toggle, setToggle] = useState(false);
-  
+  const dispatch = useDispatch();
   const handleToggleClick = () => {
     setToggle(!toggle);
 
@@ -30,7 +31,7 @@ const Header = () => {
       <header className="header">
         <div className="header-container">
           <div className="logo">
-            <Link to="/">
+            <Link onClick={() => window.location.reload()} to="/">
               <img src={logo} alt="logo" />
             </Link>
           </div>
