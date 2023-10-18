@@ -91,7 +91,7 @@ const Cart = () => {
                   <button onClick={() => addCart(item)}>+</button>
                 </div>
                 <div>
-                  <h4>{(item?.quantity * item?.list_price)?.toFixed(2)}</h4>
+                  <h4>${(item?.quantity * item?.list_price)?.toFixed(2)}</h4>
                 </div>
                 <div className='delete-btn'>
                   {/* {console.log(item?.id)} */}
