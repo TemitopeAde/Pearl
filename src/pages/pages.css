@@ -462,6 +462,7 @@ body .card .description button:hover {
 
 .product-img img {
   height: 560px;
+  object-fit: contain;
 }
 
 .product-details .product-description {
